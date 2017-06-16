@@ -130,7 +130,11 @@ public:
 
     class PossiblyEvaluated : public Tuple<PossiblyEvaluatedTypes> {
     public:
-        using Tuple<PossiblyEvaluatedTypes>::Tuple;
+        PossiblyEvaluated() = default;
+
+        PossiblyEvaluated(Tuple<PossiblyEvaluatedTypes> tuple)
+            : Tuple<PossiblyEvaluatedTypes>(std::move(tuple)) {
+        }
 
         template <class T>
         static T evaluate(float, const GeometryTileFeature&, const T& t, const T&) {
