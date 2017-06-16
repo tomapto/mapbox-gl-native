@@ -9,8 +9,10 @@
 namespace mbgl {
 
 namespace util {
-template <typename T> class Thread;
+template <typename T> class ThreadedObject;
 } // namespace util
+
+template <typename T> class ActorRef;
 
 class AssetManagerFileSource : public FileSource {
 public:
@@ -20,9 +22,11 @@ public:
     std::unique_ptr<AsyncRequest> request(const Resource&, Callback) override;
 
 private:
-    jni::UniqueObject<android::AssetManager> assetManager;
     class Impl;
-    std::unique_ptr<util::Thread<Impl>> thread;
+
+    jni::UniqueObject<android::AssetManager> assetManager;
+    std::unique_ptr<util::ThreadedObject<Impl>> impl;
+    std::unique_ptr<ActorRef<Impl>> thread;
 };
 
 } // namespace mbgl
