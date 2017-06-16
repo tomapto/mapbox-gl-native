@@ -130,10 +130,9 @@ public:
 
     class PossiblyEvaluated : public Tuple<PossiblyEvaluatedTypes> {
     public:
-        PossiblyEvaluated() = default;
-
-        PossiblyEvaluated(Tuple<PossiblyEvaluatedTypes> tuple)
-            : Tuple<PossiblyEvaluatedTypes>(std::move(tuple)) {
+        template <class... Us>
+        PossiblyEvaluated(Us&&... us)
+            : Tuple<PossiblyEvaluatedTypes>(std::forward<Us>(us)...) {
         }
 
         template <class T>
