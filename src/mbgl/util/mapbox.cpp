@@ -27,11 +27,25 @@ bool isMapboxURL(const std::string& url) {
 static bool equals(const std::string& str, const URL::Segment& segment, const char* ref) {
     return str.compare(segment.first, segment.second, ref) == 0;
 }
+std::string makeAPIURL(const std::string& str,const std::string& accessToken){
+    if(accessToken.empty()){
+        return str;
+    }
+    URL url(str);
+    if (url.query.second > 1) {
+        return str + "&token="+accessToken;
+    }else{
+        return str + "?token="+accessToken;
+    }
+}
 
 std::string normalizeSourceURL(const std::string& baseURL,
                                const std::string& str,
                                const std::string& accessToken) {
     if (!isMapboxURL(str)) {
+        if(!accessToken.empty()){
+            return makeAPIURL(str,accessToken);
+        }
         return str;
     }
     if (accessToken.empty()) {
@@ -48,6 +62,9 @@ std::string normalizeStyleURL(const std::string& baseURL,
                               const std::string& str,
                               const std::string& accessToken) {
     if (!isMapboxURL(str)) {
+        if(!accessToken.empty()){
+            return makeAPIURL(str,accessToken);
+        }
         return str;
     }
 
@@ -65,6 +82,9 @@ std::string normalizeSpriteURL(const std::string& baseURL,
                                const std::string& str,
                                const std::string& accessToken) {
     if (!isMapboxURL(str)) {
+        if(!accessToken.empty()){
+            return makeAPIURL(str,accessToken);
+        }
         return str;
     }
 
@@ -83,6 +103,9 @@ std::string normalizeGlyphsURL(const std::string& baseURL,
                                const std::string& str,
                                const std::string& accessToken) {
     if (!isMapboxURL(str)) {
+        if(!accessToken.empty()){
+            return makeAPIURL(str,accessToken);
+        }
         return str;
     }
 
@@ -100,6 +123,9 @@ std::string normalizeTileURL(const std::string& baseURL,
                              const std::string& str,
                              const std::string& accessToken) {
     if (!isMapboxURL(str)) {
+        if(!accessToken.empty()){
+            return makeAPIURL(str,accessToken);
+        }
         return str;
     }
 
